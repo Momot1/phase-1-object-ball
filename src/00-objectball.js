@@ -1,5 +1,5 @@
-const gameObject = (function(){
-    stats = {
+function gameObject (){
+    return {
         home: {
             teamName: 'Brooklyn Nets',
             colors: ['Black', 'White'],
@@ -113,126 +113,101 @@ const gameObject = (function(){
             } 
         }
     }
-    return stats
-})
+}
 
-const numPointsScored= (name => {
+function numPointsScored(name) {
     const obj = gameObject()
-    let pointsScored
-    for(let firstLvl in obj){
-        const secondLvl = obj[firstLvl]
-        for(let test in secondLvl){
-            const thirdLvl = secondLvl[test]
-            for(let forthLvl in thirdLvl){
-                const final = thirdLvl[forthLvl]
-                if(forthLvl === name){
-                    pointsScored = final.points
-                }
+    for(const gameKey in obj){
+        const teamObj = obj[gameKey]
+        const playerObj = teamObj.players
+        for(const playerKey in playerObj){
+            if(playerKey === name){
+                return playerObj[playerKey].points
             }
         }
     }
-    return pointsScored
-})
+}
 
-const shoeSize= (name => {
+function shoeSize(name){
     const obj = gameObject()
-    let shoeSize
-    for(let firstLvl in obj){
-        const secondLvl = obj[firstLvl]
-        for(let test in secondLvl){
-            const thirdLvl = secondLvl[test]
-            for(let forthLvl in thirdLvl){
-                const final = thirdLvl[forthLvl]
-                if(forthLvl === name){
-                    shoeSize = final.shoe
-                }
+    for(const gameKey in obj){
+        const teamObj = obj[gameKey]
+        const playerObj = teamObj.players
+        for(const playerKey in playerObj){
+            if(playerKey === name){
+                return playerObj[playerKey].shoe
             }
         }
     }
-    return shoeSize
-})
+}
 
-const teamColors = (name => {
+function teamColors(name){
     const obj = gameObject()
-    let teamColors = []
-    for(let key in obj){
-        const secondKey = obj[key]
-        if(secondKey.teamName === name){
-            teamColors = secondKey.colors
+    for(const gameKey in obj){
+        const teams = obj[gameKey]
+        if(teams.teamName === name){
+            return teams.colors
         }
     }
-    return teamColors
-})
+}
 
-const teamNames = (() => {
+function teamNames(){
     const obj = gameObject()
-    let teamNames = []
-    for(let key in obj){
-        secondKey = obj[key]
-        teamNames.push(secondKey.teamName)
+    const teamNames = []
+    for(const key in obj){
+        teams = obj[key]
+        teamNames.push(teams.teamName)
     }
     return teamNames
-})
+}
 
-const playerNumbers = (name => {
+function playerNumbers(name){
     const obj = gameObject()
-    let teamJerseys = []
-    for(let firstLvl in obj){
-        const secondLvl = obj[firstLvl]
-        for(let test in secondLvl){
-            const thirdLvl = secondLvl[test]
-            for(let forthLvl in thirdLvl){
-                const final = thirdLvl[forthLvl]
-                if(secondLvl.teamName === name && final.number){
-                    teamJerseys.push(final.number)
-                }
+    const teamJerseys = []
+    for(const gameKey in obj){
+        const teamObj = obj[gameKey]
+        const team = teamObj.teamName //have the teams here 
+        // loops through the team provided, and grab the jersey numbers of the players and push them to the array
+        if(team ===  name){
+            const playerObj = teamObj.players //Has all the players of the inputted team name
+            for(const playerKey in playerObj){
+                teamJerseys.push(playerObj[playerKey].number)
             }
         }
-    }   
-
+    }
     return teamJerseys
-})
+}   
 
-const playerStats = (name => {
+function playerStats(name){
     const obj = gameObject()
-    let player = {}
-    for(let firstLvl in obj){
-        const secondLvl = obj[firstLvl]
-        for(let test in secondLvl){
-            const thirdLvl = secondLvl[test]
-            for(let forthLvl in thirdLvl){
-                const final = thirdLvl[forthLvl]
-                if(forthLvl === name){
-                    player = Object.assign(final)
-                }
+    for(const gameKey in obj){
+        const teamObj = obj[gameKey]
+        const playerObj = teamObj.players
+        for(const playerKey in playerObj){
+            if(playerKey === name){
+                return Object.assign(playerObj[playerKey])
             }
         }
     } 
+}
 
-    return player
-})
-
-const bigShoeRebounds = (() => {
+function bigShoeRebounds(){
     const obj = gameObject()
     let rebounds = 0
-    let shoeSize = 1
-    for(let firstLvl in obj){
-        const secondLvl = obj[firstLvl]
-        for(let test in secondLvl){
-            const thirdLvl = secondLvl[test]
-            for(let forthLvl in thirdLvl){
-                const final = thirdLvl[forthLvl]
-                const int = final.shoe
-                if(int > shoeSize){
-                    shoeSize = int
-                    rebounds = final.rebounds
-                }
+    let currentShoeSize = 0
+    for(let gameKey in obj){
+        const teamObj = obj[gameKey]
+        const playerObj = teamObj.players
+        for(const playerKey in playerObj){
+            const playerShoe = playerObj[playerKey].shoe
+            if(playerShoe > currentShoeSize){
+                currentShoeSize = playerShoe
+                rebounds = playerObj[playerKey].rebounds
             }
-        }
-    } 
-
+        } 
+    }
     return rebounds
-})
+}
 
 
 
